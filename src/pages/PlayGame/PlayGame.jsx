@@ -62,6 +62,7 @@ function PlayGame() {
               text={wordSelected}
               usedLetters={usedLetters}
               onLetterClick={handleLetterClick}
+              disabled={gameStatus !== null}
             />
           </div>
 

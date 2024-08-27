@@ -3,7 +3,7 @@ const ALPHABETS = new Array(26)
   .map((e, index) => String.fromCharCode(65 + index));
 // 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')
 
-function LetterButtons({ text, usedLetters, onLetterClick }) {
+function LetterButtons({ text, usedLetters, onLetterClick, disabled }) {
   const originalCharacters = new Set(text.toUpperCase().split(""));
   const selectedLetters = new Set(usedLetters.join("").toUpperCase().split(""));
 
@@ -21,7 +21,9 @@ function LetterButtons({ text, usedLetters, onLetterClick }) {
 
   const handleClick = function (event) {
     const character = event.target.value;
-    onLetterClick?.(character);
+    if (!disabled && !selectedLetters.has(character)) {
+      onLetterClick?.(character);
+    }
   };
 
   const buttons = ALPHABETS.map((letter) => {
@@ -29,7 +31,7 @@ function LetterButtons({ text, usedLetters, onLetterClick }) {
       <button
         key={`button-${letter}`}
         value={letter}
-        disabled={selectedLetters.has(letter)}
+        disabled={disabled || selectedLetters.has(letter)}
         onClick={handleClick}
         className={`h-12 w-12 m-1 rounded-md focus:outline-none text-white ${buttonStyle(
           letter
